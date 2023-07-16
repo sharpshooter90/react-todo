@@ -2,9 +2,10 @@ import React from "react";
 import { useState } from "react";
 
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
+import EditIcon from "@heroicons/react/24/outline/PencilIcon";
 import { Tooltip } from "react-tooltip";
 
-function TaskItem({ task, toggleTask, deleteTask }) {
+function TaskItem({ task, toggleTask, deleteTask, enterEditMode }) {
   const [checked, setChecked] = useState(task?.checked);
 
   const handleCheckboxChange = (event) => {
@@ -14,6 +15,13 @@ function TaskItem({ task, toggleTask, deleteTask }) {
 
   const handleDeleteTask = (event) => {
     deleteTask(task?.id);
+  };
+  const handleEditTask = (event) => {
+    // const name = prompt("Enter new task name", task?.name);
+    // if (name) {
+    //   updateTask(task?.id, name);
+    // }
+    enterEditMode(task);
   };
 
   return (
@@ -37,15 +45,26 @@ function TaskItem({ task, toggleTask, deleteTask }) {
           <label htmlFor={task?.id} className="font-medium text-gray-900">
             {task?.name}
           </label>
-          <button
-            type="button"
-            className="rounded-full bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            data-tooltip-id="todo-app-tooltip"
-            data-tooltip-content="Delete Task"
-            onClick={handleDeleteTask}
-          >
-            <TrashIcon className="h-5 w-5" aria-hidden="true" />
-          </button>
+          <div className="flex gap-4">
+            <button
+              type="button"
+              className="rounded-full bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              data-tooltip-id="todo-app-tooltip"
+              data-tooltip-content="Edit Task"
+              onClick={handleEditTask}
+            >
+              <EditIcon className="h-4 w-4" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              className="rounded-full bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              data-tooltip-id="todo-app-tooltip"
+              data-tooltip-content="Delete Task"
+              onClick={handleDeleteTask}
+            >
+              <TrashIcon className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </div>
       <Tooltip id="todo-app-tooltip" />
