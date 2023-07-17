@@ -129,58 +129,60 @@ function App() {
             />
           )}
           <NewTaskForm addTask={addTask} />
-          <div className="mt-4">
-            {incompleteTasks && (
-              <div className="mt-4">
-                <motion.div
-                  layout
-                  className="mb-4 text-gray-800 dark:text-white text-2xl font-bold"
-                >
-                  Up coming Tasks
-                  {incompleteTasks.length === 0 && (
-                    <div className="text-gray-500 dark:text-gray-400 text-lg">
-                      No up coming tasks
-                    </div>
-                  )}
-                </motion.div>
+          {tasks.length > 0 && (
+            <div className="mt-4">
+              {incompleteTasks && (
+                <div className="mt-4">
+                  <motion.div
+                    layout
+                    className="mb-4 text-gray-800 dark:text-white text-2xl font-bold"
+                  >
+                    Up coming Tasks
+                    {incompleteTasks.length === 0 && (
+                      <div className="text-gray-500 dark:text-gray-400 text-lg">
+                        No up coming tasks
+                      </div>
+                    )}
+                  </motion.div>
 
-                <motion.div layout>
-                  <TaskList
-                    tasks={incompleteTasks}
-                    toggleTask={toggleTask}
-                    deleteTask={deleteTask}
-                    updateTask={updateTask}
-                    enterEditMode={enterEditMode}
-                  />
-                </motion.div>
-              </div>
-            )}
-            {completedTasks && (
-              <div className="mt-4">
-                <motion.div
-                  layout
-                  className="mb-4 text-gray-800 dark:text-white text-2xl font-bold"
-                >
-                  Completed
-                  {completedTasks.length === 0 && (
-                    <div className="text-gray-500 dark:text-gray-400 text-lg">
-                      No completed tasks
-                    </div>
-                  )}
-                </motion.div>
+                  <motion.div layout>
+                    <TaskList
+                      tasks={incompleteTasks}
+                      toggleTask={toggleTask}
+                      deleteTask={deleteTask}
+                      updateTask={updateTask}
+                      enterEditMode={enterEditMode}
+                    />
+                  </motion.div>
+                </div>
+              )}
+              {completedTasks && (
+                <div className="mt-4">
+                  <motion.div
+                    layout
+                    className="mb-4 text-gray-800 dark:text-white text-2xl font-bold"
+                  >
+                    Completed
+                    {completedTasks.length === 0 && (
+                      <div className="text-gray-500 dark:text-gray-400 text-lg">
+                        No completed tasks
+                      </div>
+                    )}
+                  </motion.div>
 
-                <motion.div layout>
-                  <TaskList
-                    tasks={completedTasks}
-                    toggleTask={toggleTask}
-                    deleteTask={deleteTask}
-                    updateTask={updateTask}
-                    enterEditMode={enterEditMode}
-                  />
-                </motion.div>
-              </div>
-            )}
-          </div>
+                  <motion.div layout>
+                    <TaskList
+                      tasks={completedTasks}
+                      toggleTask={toggleTask}
+                      deleteTask={deleteTask}
+                      updateTask={updateTask}
+                      enterEditMode={enterEditMode}
+                    />
+                  </motion.div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <ToastContainer />
