@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import { motion } from "framer-motion";
+import "react-toastify/dist/ReactToastify.css";
 
 // custom components
 import NewTaskForm from "./components/NewTaskForm";
@@ -12,6 +15,17 @@ function App() {
   const [tasks, setTasks] = useLocalStorage("react-todo.tasks", []);
   const [theme, setTheme] = useLocalStorage("react-todo.theme", "light");
 
+  // create complete and incomplete tasks
+  const completedTasks = tasks.filter((task) => task.checked);
+  const incompleteTasks = tasks.filter((task) => !task.checked);
+
+  // messages for CRUD operations
+  const messages = {
+    add: "Task added successfully!",
+    update: "Task updated successfully!",
+    delete: "Task deleted successfully!",
+  };
+
   // TODO: query the system preferences and check the local time to set the theme
   // https://tailwindcss.com/docs/dark-mode
   if (theme === "dark") {
@@ -23,6 +37,39 @@ function App() {
   const toggleTheme = (activeTheme) => {
     setTheme(activeTheme);
   };
+
+  // to paramenterize the toast message types
+  function showToast(message, type, options = {}) {
+    const defaultOptions = {
+      position: "top-right",
+      autoClose: 3000,
+      transition: Slide,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+    };
+
+    const toastOptions = { ...defaultOptions, ...options };
+
+    switch (type) {
+      case "success":
+        toast.success(message, toastOptions);
+        break;
+      case "info":
+        toast.info(message, toastOptions);
+        break;
+      case "warning":
+        toast.warn(message, toastOptions);
+        break;
+      case "error":
+        toast.error(message, toastOptions);
+        break;
+      default:
+        toast(message, toastOptions);
+    }
+  }
 
   const [editMode, setEditMode] = useState(false);
   const [previousFocusEl, setPreviousFocusEl] = useState(null);
@@ -41,6 +88,7 @@ function App() {
 
   const deleteTask = (id) => {
     setTasks((prevState) => prevState.filter((task) => task.id !== id));
+    showToast(messages.delete, "info");
   };
 
   // create a updateTask to update the task name
@@ -49,6 +97,7 @@ function App() {
     setTasks((prevState) =>
       prevState.map((t) => (t.id === task.id ? { ...t, name: task.name } : t))
     );
+    showToast(messages.update, "success");
 
     // close the edit Mode
     closeEditMode();
@@ -81,18 +130,61 @@ function App() {
           )}
           <NewTaskForm addTask={addTask} />
           <div className="mt-4">
-            {tasks && (
-              <TaskList
-                tasks={tasks}
-                toggleTask={toggleTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-                enterEditMode={enterEditMode}
-              />
+            {incompleteTasks && (
+              <div className="mt-4">
+                <motion.div
+                  layout
+                  className="mb-4 text-gray-800 dark:text-white text-2xl font-bold"
+                >
+                  Up coming Tasks
+                </motion.div>
+
+                {incompleteTasks.length === 0 && (
+                  <div className="text-gray-500 dark:text-gray-400 text-lg">
+                    No up coming tasks
+                  </div>
+                )}
+
+                <motion.div layout>
+                  <TaskList
+                    tasks={incompleteTasks}
+                    toggleTask={toggleTask}
+                    deleteTask={deleteTask}
+                    updateTask={updateTask}
+                    enterEditMode={enterEditMode}
+                  />
+                </motion.div>
+              </div>
+            )}
+            {completedTasks && (
+              <div className="mt-4">
+                <motion.div
+                  layout
+                  className="mb-4 text-gray-800 dark:text-white text-2xl font-bold"
+                >
+                  Completed
+                </motion.div>
+                {completedTasks.length === 0 && (
+                  <div className="text-gray-500 dark:text-gray-400 text-lg">
+                    No completed tasks
+                  </div>
+                )}
+
+                <motion.div layout>
+                  <TaskList
+                    tasks={completedTasks}
+                    toggleTask={toggleTask}
+                    deleteTask={deleteTask}
+                    updateTask={updateTask}
+                    enterEditMode={enterEditMode}
+                  />
+                </motion.div>
+              </div>
             )}
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
