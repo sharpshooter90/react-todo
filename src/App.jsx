@@ -137,13 +137,12 @@ function App() {
                   className="mb-4 text-gray-800 dark:text-white text-2xl font-bold"
                 >
                   Up coming Tasks
+                  {incompleteTasks.length === 0 && (
+                    <div className="text-gray-500 dark:text-gray-400 text-lg">
+                      No up coming tasks
+                    </div>
+                  )}
                 </motion.div>
-
-                {incompleteTasks.length === 0 && (
-                  <div className="text-gray-500 dark:text-gray-400 text-lg">
-                    No up coming tasks
-                  </div>
-                )}
 
                 <motion.div layout>
                   <TaskList
@@ -163,12 +162,12 @@ function App() {
                   className="mb-4 text-gray-800 dark:text-white text-2xl font-bold"
                 >
                   Completed
+                  {completedTasks.length === 0 && (
+                    <div className="text-gray-500 dark:text-gray-400 text-lg">
+                      No completed tasks
+                    </div>
+                  )}
                 </motion.div>
-                {completedTasks.length === 0 && (
-                  <div className="text-gray-500 dark:text-gray-400 text-lg">
-                    No completed tasks
-                  </div>
-                )}
 
                 <motion.div layout>
                   <TaskList
