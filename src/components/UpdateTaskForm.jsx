@@ -48,23 +48,23 @@ export const UpdateTaskForm = ({ editedTask, updateTask, closeEditMode }) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white dark:bg-slate-800 p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-300 mb-2"
                   >
-                    Payment successful
+                    Update Task
                   </Dialog.Title>
                   <form className="w-full" onSubmit={handleFormSubmit}>
-                    <div className="overflow-hidden bg-white shadow sm:rounded-lg">
-                      <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+                    <div className="overflow-hidden shadow sm:rounded-lg">
+                      <div className="border-b border-gray-200 dark:border-slate-700 bg-white dark:bg-black  px-4 py-5 sm:px-6">
                         <div className="-ml-4 -mt-2 flex items-center justify-between sm:flex-nowrap">
                           <div className="ml-4 mt-2 w-full">
                             <input
                               type="text"
                               name="task"
                               id="task"
-                              className="block w-full p-4 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                              className="block w-full p-4 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-800 placeholder:text-gray-400 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-slate-950"
                               placeholder="Enter new task"
                               onInput={(e) =>
                                 setUpdatedTaskName(e.target.value)

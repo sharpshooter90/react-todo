@@ -4,12 +4,26 @@ import { useState } from "react";
 import NewTaskForm from "./components/NewTaskForm";
 import TaskList from "./components/TaskList";
 import UpdateTaskForm from "./components/UpdateTaskForm";
-
+import ThemeSwitcher from "./components/ThemeSwitcher";
 // custom hooks
 import useLocalStorage from "./hooks/useLocalStorage";
 
 function App() {
   const [tasks, setTasks] = useLocalStorage("react-todo.tasks", []);
+  const [theme, setTheme] = useLocalStorage("react-todo.theme", "light");
+
+  // TODO: query the system preferences and check the local time to set the theme
+  // https://tailwindcss.com/docs/dark-mode
+  if (theme === "dark") {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+
+  const toggleTheme = (activeTheme) => {
+    setTheme(activeTheme);
+  };
+
   const [editMode, setEditMode] = useState(false);
   const [previousFocusEl, setPreviousFocusEl] = useState(null);
   const [editedTask, setEditedTask] = useState(null);
@@ -53,9 +67,10 @@ function App() {
   };
 
   return (
-    <div className="bg-gray-100 h-full">
+    <div className="bg-gray-100 dark:bg-slate-800 h-full">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-full">
         {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
+        <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
         <div className="mx-auto max-w-3xl pt-20 h-full flex flex-col">
           {editMode && (
             <UpdateTaskForm

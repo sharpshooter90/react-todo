@@ -26,7 +26,7 @@ function TaskItem({ task, toggleTask, deleteTask, enterEditMode }) {
 
   return (
     <div
-      className={`p-6 border-b mb-2 border-gray-200 overflow-hidden bg-white shadow sm:rounded-md ${
+      className={`p-6 border-b mb-2 border-gray-200 dark:bg-slate-900 dark:border-slate-700 overflow-hidden bg-white shadow sm:rounded-md ${
         task.checked === true ? "opacity-50" : "opacity-100"
       }`}
     >
@@ -38,11 +38,16 @@ function TaskItem({ task, toggleTask, deleteTask, enterEditMode }) {
             checked={checked}
             onChange={handleCheckboxChange}
             type="checkbox"
-            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+            className="h-4 w-4 rounded border-gray-300 dark:bg-slate-300 dark:border-slate-700 dark:ring-slate-800 text-indigo-600 focus:ring-indigo-600"
           />
         </div>
         <div className="w-full ml-3 text-sm leading-6 flex justify-between">
-          <label htmlFor={task?.id} className="font-medium text-gray-900">
+          <label
+            htmlFor={task?.id}
+            className={`font-medium text-gray-900 dark:text-slate-300 ${
+              task?.checked && "line-through text-gray-400 dark:text-green-600"
+            }`}
+          >
             {task?.name}
           </label>
           <div className="flex gap-4">
@@ -57,7 +62,7 @@ function TaskItem({ task, toggleTask, deleteTask, enterEditMode }) {
             </button>
             <button
               type="button"
-              className="rounded-full bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-full bg-indigo-600 p-2 text-white dark:text-slate-300 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               data-tooltip-id="todo-app-tooltip"
               data-tooltip-content="Delete Task"
               onClick={handleDeleteTask}

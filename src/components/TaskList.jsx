@@ -3,7 +3,7 @@ import TaskItem from "./TaskItem";
 
 export const TaskList = ({ tasks, toggleTask, deleteTask, enterEditMode }) => {
   return (
-    <div className="">
+    <div className="flex flex-col-reverse">
       {tasks.map((task, key) => {
         return (
           <TaskItem
