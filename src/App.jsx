@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import { motion } from "framer-motion";
 import "react-toastify/dist/ReactToastify.css";
+import { Tab } from "@headlessui/react";
 
 // custom components
 import NewTaskForm from "./components/NewTaskForm";
@@ -115,6 +116,10 @@ function App() {
     setPreviousFocusEl(document.activeElement);
   };
 
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+
   return (
     <div className="bg-gray-100 dark:bg-slate-800 h-full">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-full">
@@ -129,22 +134,39 @@ function App() {
             />
           )}
           <NewTaskForm addTask={addTask} />
-          {tasks.length > 0 && (
-            <div className="mt-4">
-              {incompleteTasks && (
-                <div className="mt-4">
-                  <motion.div
-                    layout
-                    className="mb-4 text-gray-800 dark:text-white text-2xl font-bold"
-                  >
-                    Up coming Tasks
-                    {incompleteTasks.length === 0 && (
-                      <div className="text-gray-500 dark:text-gray-400 text-lg">
-                        No up coming tasks
-                      </div>
-                    )}
-                  </motion.div>
 
+          <div className="mt-4">
+            <Tab.Group>
+              <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+                <Tab
+                  className={({ selected }) =>
+                    classNames(
+                      "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                      "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                      selected
+                        ? "bg-white dark:bg-slate-900 shadow"
+                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                    )
+                  }
+                >
+                  Up coming Tasks ({incompleteTasks.length})
+                </Tab>
+                <Tab
+                  className={({ selected }) =>
+                    classNames(
+                      "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                      "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                      selected
+                        ? "bg-white  dark:bg-slate-900 shadow"
+                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                    )
+                  }
+                >
+                  Completed ({completedTasks.length})
+                </Tab>
+              </Tab.List>
+              <Tab.Panels className="mt-2">
+                <Tab.Panel className="rounded-xlp-3 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2">
                   <motion.div layout>
                     <TaskList
                       tasks={incompleteTasks}
@@ -154,22 +176,8 @@ function App() {
                       enterEditMode={enterEditMode}
                     />
                   </motion.div>
-                </div>
-              )}
-              {completedTasks && (
-                <div className="mt-4">
-                  <motion.div
-                    layout
-                    className="mb-4 text-gray-800 dark:text-white text-2xl font-bold"
-                  >
-                    Completed
-                    {completedTasks.length === 0 && (
-                      <div className="text-gray-500 dark:text-gray-400 text-lg">
-                        No completed tasks
-                      </div>
-                    )}
-                  </motion.div>
-
+                </Tab.Panel>
+                <Tab.Panel className="rounded-xl ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2">
                   <motion.div layout>
                     <TaskList
                       tasks={completedTasks}
@@ -179,10 +187,10 @@ function App() {
                       enterEditMode={enterEditMode}
                     />
                   </motion.div>
-                </div>
-              )}
-            </div>
-          )}
+                </Tab.Panel>
+              </Tab.Panels>
+            </Tab.Group>
+          </div>
         </div>
       </div>
       <ToastContainer />
